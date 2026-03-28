@@ -1,184 +1,238 @@
 <!DOCTYPE html>
-
-<html>
-<head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="styles/style.css"/>
-  <title>Hello, World!</title>
-</head>
-<body>
-  <h1>
-    Hello, World!
-  </h1>
-</body>
-</html>
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>خزنتي - Khaznati</title>
     <style>
-        :root {
-            --primary-color: #3f51b5;
-            --secondary-color: #ff9800;
-            --bg-light: #f5f5f5;
+        :root { --primary: #1a237e; --accent: #ffd700; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); overflow-x: hidden; }
+        
+        /* شاشة البداية */
+        #splash {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: var(--primary); color: white; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: var(--bg-light);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+        /* الهيدر والقائمة */
+        header { background: var(--primary); color: white; padding: 15px; text-align: center; font-size: 1.4rem; position: sticky; top:0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        #drawer { position: fixed; top:0; right: -250px; width: 250px; height: 100%; background: white; z-index: 1000; transition: 0.3s; box-shadow: -2px 0 10px rgba(0,0,0,0.1); }
+        .drawer-item { padding: 20px; border-bottom: 1px solid #eee; cursor: pointer; color: var(--primary); font-weight: bold; }
 
-        /* --- شاشة البداية (Splash) --- */
-        #splash-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
+        /* شبكة الملابس */
+        #main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; padding-bottom: 100px; min-height: 80vh; }
+        .clothing-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; position: relative; border: 1px solid #ddd; }
+        .clothing-card img { width: 100%; height: 180px; object-fit: cover; background: #eee; }
+        .color-tag { padding: 5px 10px; font-size: 0.8rem; font-weight: bold; border-radius: 5px; margin: 8px; display: inline-block; border: 1px solid rgba(0,0,0,0.1); }
 
-        /* --- الهيدر والقائمة الجانبية --- */
-        header {
-            background: var(--primary-color);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            position: relative;
-        }
+        /* شريط التنقل السفلي */
+        nav { position: fixed; bottom: 0; width: 100%; height: 70px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 500; }
+        .nav-icon { font-size: 1.5rem; cursor: pointer; color: #666; padding: 10px; }
+        .add-btn { width: 65px; height: 65px; background: var(--primary); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 2.2rem; margin-top: -45px; border: 6px solid var(--bg); cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        #menu-btn {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            cursor: pointer;
-            font-size: 1.8rem;
-        }
-
-        #side-drawer {
-            position: fixed;
-            top: 0; right: -250px; width: 250px; height: 100%;
-            background: white;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.2);
-            transition: 0.3s;
-            z-index: 900;
-            padding-top: 60px;
-        }
-
-        .drawer-item {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-        }
-
-        /* --- المحتوى الرئيسي (الشبكة) --- */
-        #main-content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .item-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .item-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            background: #e0e0e0;
-        }
-
-        /* --- شريط التنقل السفلي --- */
-        nav {
-            height: 70px;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #ddd;
-            position: relative;
-        }
-
-        .nav-btn {
-            font-size: 1.5rem;
-            color: #757575;
-            cursor: pointer;
-        }
-
-        .nav-btn.active { color: var(--primary-color); }
-
-        .add-btn-container {
-            position: absolute;
-            top: -30px;
-            background: var(--primary-color);
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            cursor: pointer;
-        }
-
-        /* --- شاشة المنبه --- */
-        #alarm-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(26, 35, 126, 0.95);
-            color: white;
-            z-index: 1100;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .btn-confirm {
-            background: #4caf50;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            margin-top: 20px;
-            cursor: pointer;
-        }
+        /* طبقات الكاميرا والنتائج */
+        .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index: 2000; background: black; flex-direction: column; align-items: center; justify-content: center; }
+        #video { width: 100%; height: 70%; object-fit: cover; }
+        .action-btn { background: var(--primary); color: white; border: none; padding: 15px 35px; border-radius: 30px; margin-top: 20px; font-size: 1.1rem; cursor: pointer; font-weight: bold; }
+        
+        .empty-msg { grid-column: 1 / span 2; color: #999; text-align: center; margin-top: 50px; }
     </style>
 </head>
 <body>
 
-    <div id="splash-screen">
-        <div style="font-size: 5rem;">👕</div>
-        <h1>خزنتي</h1>
-    </div>
+<div id="splash" onclick="hideSplash()"> 
+    <div style="font-size: 6rem; margin-bottom: 20px;">👕</div> 
+    <h1 style="letter-spacing: 2px;">خزنتي</h1> 
+    <p>جاري التحميل...</p>
+</div>
 
-    <div id="side-drawer">
-        <div class="drawer-item">👔 القمصان</div>
-        <div class="drawer-item">👖 البناطيل</div>
-        <div class="drawer-item">🧥 المعاطف</div>
-        <div class="drawer
+<div id="drawer">
+    <div style="background:var(--primary); color:white; padding:25px; font-size: 1.2rem;">تصنيفات خزانتي</div>
+    <div class="drawer-item" onclick="renderCloset('top')">👕 القمصان والقطع العلوية</div>
+    <div class="drawer-item" onclick="renderCloset('bottom')">👖 البناطيل والقطع السفلية</div>
+    <div class="drawer-item" onclick="renderCloset('shoes')">👟 الأحذية</div>
+    <div class="drawer-item" onclick="renderCloset('all')" style="background: #f0f0f0;">📚 عرض الكل</div>
+    <div class="drawer-item" onclick="toggleDrawer()" style="color:red; margin-top: 20px; text-align: center;">إغلاق ×</div>
+</div>
 
+<header> 
+    <span style="position:absolute; right:20px; top:18px; cursor:pointer; font-size: 1.5rem;" onclick="toggleDrawer()">☰</span> 
+    خزنتي 
+</header>
+
+<div id="main-grid"></div>
+
+<nav>
+    <div class="nav-icon" onclick="location.reload()">🏠</div>
+    <div class="add-btn" onclick="openCamera()">+</div>
+    <div class="nav-icon" onclick="runAI()">🧠</div>
+</nav>
+
+<div id="camera-layer" class="overlay">
+    <video id="video" autoplay playsinline></video>
+    <button class="action-btn" onclick="capture()">التقاط الصورة 📸</button>
+    <button onclick="closeCamera()" style="color:white; background:none; border:none; margin-top:20px; text-decoration: underline;">إلغاء والعودة</button>
+</div>
+
+<div id="alarm-layer" class="overlay" style="background: rgba(26,35,126,0.95); color:white; padding: 20px; text-align: center;">
+    <h2 style="color: var(--accent);">تنسيقك الذكي لليوم ✨</h2>
+    <div id="outfit-result" style="background:white; color:black; width:90%; padding:25px; border-radius:25px; margin:20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+    <button class="action-btn" style="background:#4caf50;" onclick="closeAlarm()">أعجبني، اعتمد!</button>
+    <button onclick="closeAlarm()" style="color:white; background:none; border:none; margin-top:15px;">إغلاق</button>
+</div>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+    let closet = JSON.parse(localStorage.getItem('khaznati_data')) || [];
+    const video = document.getElementById('video');
+
+    // وظيفة إخفاء شاشة البداية
+    function hideSplash() {
+        document.getElementById('splash').style.transition = "opacity 0.5s";
+        document.getElementById('splash').style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById('splash').style.display = 'none';
+        }, 500);
+    }
+    // إخفاء تلقائي بعد 3 ثواني
+    setTimeout(hideSplash, 3000);
+
+    function toggleDrawer() {
+        const d = document.getElementById('drawer');
+        d.style.right = (d.style.right === '0px') ? '-250px' : '0px';
+    }
+
+    async function openCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: "environment" }, 
+                audio: false 
+            });
+            video.srcObject = stream;
+            document.getElementById('camera-layer').style.display = 'flex';
+        } catch(e) { 
+            alert("خطأ: يرجى السماح للرابط بالوصول إلى الكاميرا من إعدادات المتصفح."); 
+        }
+    }
+
+    function closeCamera() {
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+        document.getElementById('camera-layer').style.display = 'none';
+    }
+
+    function capture() {
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        const imageData = canvas.toDataURL('image/jpeg', 0.7);
+        
+        // تحليل اللون (متوسط 5 نقاط في المركز)
+        const pixel = context.getImageData(canvas.width/2, canvas.height/2, 1, 1).data;
+        const hex = "#" + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1);
+
+        const typeInput = prompt("حدد النوع: (1) قميص | (2) بنطال | (3) حذاء", "1");
+        let type = 'top';
+        if(typeInput === "2") type = 'bottom';
+        if(typeInput === "3") type = 'shoes';
+
+        closet.push({ 
+            id: Date.now(),
+            img: imageData, 
+            color: hex, 
+            type: type 
+        });
+        
+        localStorage.setItem('khaznati_data', JSON.stringify(closet));
+        renderCloset();
+        closeCamera();
+    }
+
+    function renderCloset(filter = 'all') {
+        const grid = document.getElementById('main-grid');
+        grid.innerHTML = '';
+        
+        const filtered = filter === 'all' ? closet : closet.filter(i => i.type === filter);
+        
+        if(filtered.length === 0) {
+            grid.innerHTML = '<div class="empty-msg">لا توجد قطع ملابس هنا بعد. اضغط (+) للإضافة.</div>';
+            return;
+        }
+
+        filtered.reverse().forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'clothing-card';
+            card.innerHTML = `
+                <img src="${item.img}">
+                <div class="color-tag" style="background:${item.color}; color:${isDark(item.color)?'white':'black'}">
+                    ${translateType(item.type)}
+                </div>
+                <button onclick="deleteItem(${item.id})" style="position:absolute; top:5px; left:5px; background:rgba(255,0,0,0.7); border:none; color:white; border-radius:50%; width:25px; height:25px;">×</button>
+            `;
+            grid.appendChild(card);
+        });
+        if(filter !== 'all') toggleDrawer();
+    }
+
+    function isDark(hex) {
+        const r = parseInt(hex.slice(1,3), 16);
+        const g = parseInt(hex.slice(3,5), 16);
+        const b = parseInt(hex.slice(5,7), 16);
+        return (r*0.299 + g*0.587 + b*0.114) < 140;
+    }
+
+    function translateType(t) {
+        if(t === 'top') return 'قطعة علوية';
+        if(t === 'bottom') return 'قطعة سفلية';
+        return 'حذاء';
+    }
+
+    function deleteItem(id) {
+        if(confirm("هل تريد حذف هذه القطعة؟")) {
+            closet = closet.filter(i => i.id !== id);
+            localStorage.setItem('khaznati_data', JSON.stringify(closet));
+            renderCloset();
+        }
+    }
+
+    function runAI() {
+        const tops = closet.filter(i => i.type === 'top');
+        const bottoms = closet.filter(i => i.type === 'bottom');
+
+        if(tops.length === 0 || bottoms.length === 0) {
+            alert("لأقوم بالتنسيق، أحتاج على الأقل لقطعة علوية واحدة وبنطال واحد!");
+            return;
+        }
+
+        // اختيار عشوائي ذكي (يمكن تطويره بقواعد الألوان)
+        const selectedTop = tops[Math.floor(Math.random()*tops.length)];
+        const selectedBottom = bottoms[Math.floor(Math.random()*bottoms.length)];
+
+        document.getElementById('outfit-result').innerHTML = `
+            <div style="margin-bottom:15px;">
+                <p>👕 <b>القطعة العلوية المختارة:</b></p>
+                <div style="width:100%; height:10px; background:${selectedTop.color}; border-radius:5px;"></div>
+            </div>
+            <div>
+                <p>👖 <b>القطعة السفلية المختارة:</b></p>
+                <div style="width:100%; height:10px; background:${selectedBottom.color}; border-radius:5px;"></div>
+            </div>
+            <p style="margin-top:20px; font-style:italic; color:#666;">"هذا التنسيق يبدو رائعاً عليك اليوم!"</p>
+        `;
+        document.getElementById('alarm-layer').style.display = 'flex';
+    }
+
+    function closeAlarm() { document.getElementById('alarm-layer').style.display = 'none'; }
+
+    // التشغيل الأولي
+    window.onload = renderCloset;
+</script>
+</body>
+</html>
